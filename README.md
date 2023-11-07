@@ -1,2 +1,18 @@
-# Library_Management_System
-Library Management System
+<div align="center">
+<br>
+<h1> 📖 도서관리 시스템 </h1>
+  <br>
+<p>도서의 등록, 대출, 반납을 관리하는 시스템입니다</p><br>
+  <p>제작 기간<br>2023.11.7 - 2023.11.14</p>
+</div>
+
+<br>
+<br>
+
+## 구현 기능
+- 회원가입
+- 도서 등록 
+- 등록된 도서 수정
+- 등록된 도서의 대출이력 확인
+- 아이디 입력 후 도서 대출처리
+- 도서 반납 처리

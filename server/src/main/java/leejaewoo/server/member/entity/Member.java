@@ -2,12 +2,14 @@ package leejaewoo.server.member.entity;
 
 import leejaewoo.server.global.audit.Auditable;
 import leejaewoo.server.rental.entity.Rental;
+import lombok.Builder;
 import lombok.Getter;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@Builder
 @Getter
 public class Member extends Auditable {
 
@@ -15,7 +17,7 @@ public class Member extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
 
-    private String id;
+    private String email;
 
     private String password;
 
@@ -24,8 +26,6 @@ public class Member extends Auditable {
     private String phoneNumber;
 
     private String residentialAddress;
-
-    private String email;
 
     @OneToMany(mappedBy = "member")
     private List<Rental> rentals;

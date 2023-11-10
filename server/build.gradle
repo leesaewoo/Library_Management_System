@@ -16,26 +16,28 @@ jar {
 	enabled = false
 }
 
-repositories {
-	mavenCentral()
-}
-
 configurations {
-	asciidoctorExtensions
+	asciidoctorExt
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
+}
+
+repositories {
+	mavenCentral()
 }
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	compileOnly 'org.projectlombok:lombok'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	runtimeOnly 'com.h2database:h2'
+	runtimeOnly 'com.mysql:mysql-connector-j'
 	annotationProcessor 'org.projectlombok:lombok'
 	testAnnotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	asciidoctorExtensions 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+	asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
 	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 }
 
@@ -44,15 +46,12 @@ ext {
 }
 
 test {
-	// 위에서 작성한 snippetsDir 디렉토리를 test의 output으로 구성하는 설정
-	// -> 스니펫 조각들이 build/generated-snippets로 출력
 	outputs.dir snippetsDir
-	useJUnitPlatform()
 }
 
 asciidoctor {
 	inputs.dir snippetsDir
-	configurations 'asciidoctorExtensions'
+	configurations 'asciidoctorExt'
 	dependsOn test
 }
 
@@ -61,4 +60,8 @@ bootJar {
 	from("${asciidoctor.outputDir}") {
 		into 'static/docs'
 	}
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
 }

@@ -39,9 +39,6 @@ public class MemberControllerTest {
     @MockBean
     private MemberService memberService;
 
-    @MockBean
-    private MemberRepository memberRepository;
-
     @DisplayName("회원가입")
     @Test
     void postMember() throws Exception {

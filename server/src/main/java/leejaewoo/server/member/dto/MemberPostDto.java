@@ -24,6 +24,5 @@ public class MemberPostDto {
     @Pattern(regexp = "^(01[016789])-(\\d{3,4})-(\\d{4})$|^(01[016789]\\d{7,8})$", message = "올바른 핸드폰 번호가 아닙니다.")
     private String phoneNumber;
 
-    @Pattern(regexp = "^[a-zA-Z0-9가-힣]+$", message = "주소엔 영문, 숫자, 한글만 입력 가능합니다.")
     private String residentialAddress;
 }

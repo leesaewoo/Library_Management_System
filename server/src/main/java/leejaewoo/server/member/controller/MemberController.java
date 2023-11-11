@@ -27,6 +27,6 @@ public class MemberController {
 
         MemberResponseDto result = memberService.createMember(memberPostDto);
 
-        return ResponseEntity.ok(SingleResponse.ok(result, "회원가입 성공"));
+        return ResponseEntity.ok(SingleResponse.create(result, "회원가입 성공"));
     }
 }

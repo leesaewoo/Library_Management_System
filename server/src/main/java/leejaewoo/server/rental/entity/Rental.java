@@ -3,12 +3,16 @@ package leejaewoo.server.rental.entity;
 import leejaewoo.server.book.entity.Book;
 import leejaewoo.server.global.audit.Auditable;
 import leejaewoo.server.member.entity.Member;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Rental extends Auditable {
 
     @Id

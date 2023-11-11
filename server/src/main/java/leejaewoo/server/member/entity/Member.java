@@ -2,15 +2,20 @@ package leejaewoo.server.member.entity;
 
 import leejaewoo.server.global.audit.Auditable;
 import leejaewoo.server.rental.entity.Rental;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Builder
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Member extends Auditable {
 
     @Id
@@ -28,5 +33,5 @@ public class Member extends Auditable {
     private String residentialAddress;
 
     @OneToMany(mappedBy = "member")
-    private List<Rental> rentals;
+    private List<Rental> rentals = new ArrayList<>();
 }

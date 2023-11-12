@@ -2,6 +2,7 @@ package leejaewoo.server;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import leejaewoo.server.book.controller.BookController;
+import leejaewoo.server.book.dto.BookPatchDto;
 import leejaewoo.server.book.dto.BookPostDto;
 import leejaewoo.server.book.dto.BookResponseDto;
 import leejaewoo.server.book.service.BookService;
@@ -52,12 +53,13 @@ public class BookControllerTest {
                 BookPostDto.builder()
                         .name("알고리즘 문제해결")
                         .publisher("인사이트")
-                        .publishedDate("2020.6.29")
+                        .publishedDate("2020-6-29")
                         .categories(categories)
                         .build();
 
         BookResponseDto bookResponseDto =
                 BookResponseDto.builder()
+                        .bookId(1L)
                         .name("알고리즘 문제해결")
                         .publisher("인사이트")
                         .publishedDate(LocalDateTime.of(2020, 6, 29, 0, 0))
@@ -72,6 +74,43 @@ public class BookControllerTest {
                         .content(objectMapper.writeValueAsString(bookPostDto)))
                 .andDo(MockMvcResultHandlers.print())
                 .andDo(MockMvcRestDocumentation.document("books/postBook",
+                        Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
+                        Preprocessors.preprocessResponse(Preprocessors.prettyPrint())))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @DisplayName("도서수정")
+    @Test
+    void patchBook() throws Exception {
+        //given
+        List<String> categories = new ArrayList<>();
+        categories.add("IT");
+        categories.add("알고리즘");
+        categories.add("공부");
+
+        BookPatchDto bookPatchDto =
+                BookPatchDto.builder()
+                        .name("수정된 도서명")
+                        .publishedDate("2023-1-20")
+                        .build();
+
+        BookResponseDto bookResponseDto =
+                BookResponseDto.builder()
+                        .bookId(1L)
+                        .name("수정된 도서명")
+                        .publisher("인사이트")
+                        .publishedDate(LocalDateTime.of(2023, 1, 20, 0, 0))
+                        .category("IT, 알고리즘, 공부")
+                        .build();
+        given(bookService.modifyBook(any(), any()))
+                .willReturn(bookResponseDto);
+
+        //when & then
+        mockMvc.perform(MockMvcRequestBuilders.patch("/books/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(bookPatchDto)))
+                .andDo(MockMvcResultHandlers.print())
+                .andDo(MockMvcRestDocumentation.document("books/patchBook",
                         Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
                         Preprocessors.preprocessResponse(Preprocessors.prettyPrint())))
                 .andExpect(MockMvcResultMatchers.status().isOk());

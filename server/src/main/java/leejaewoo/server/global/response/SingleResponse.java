@@ -24,6 +24,10 @@ public class SingleResponse<T> {
         return SingleResponse.of(data,HttpStatus.CREATED, message);
     }
 
+    public static <T> SingleResponse<T> accepted(T data, String message) {
+        return SingleResponse.of(data,HttpStatus.ACCEPTED, message);
+    }
+
     public static <T> SingleResponse<T> of(T data, HttpStatus httpStatus) {
         return SingleResponse.of(data, httpStatus, httpStatus.getReasonPhrase());
     }

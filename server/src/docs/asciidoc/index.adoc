@@ -1,0 +1,66 @@
+= API 문서
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 3
+
+== 회원가입
+
+=== Request
+
+include::{snippets}/members/postMember/http-request.adoc[]
+
+=== Response
+
+include::{snippets}/members/postMember/http-response.adoc[]
+
+== 도서등록
+
+=== Request
+
+include::{snippets}/books/postBook/http-request.adoc[]
+
+=== Response
+
+include::{snippets}/books/postBook/http-response.adoc[]
+
+== 도서수정
+
+=== Request
+
+include::{snippets}/books/patchBook/http-request.adoc[]
+
+=== Response
+
+include::{snippets}/books/patchBook/http-response.adoc[]
+
+== 도서대출
+
+=== Request
+
+include::{snippets}/rentals/postRental/http-request.adoc[]
+
+=== Response
+
+include::{snippets}/rentals/postRental/http-response.adoc[]
+
+== 도서 반납
+
+=== Request
+
+include::{snippets}/rentals/patchRental/http-request.adoc[]
+
+=== Response
+
+include::{snippets}/rentals/patchRental/http-response.adoc[]
+
+== 도서 대출 이력 불러오기
+
+=== Request
+
+include::{snippets}/rentals/getRentals/http-request.adoc[]
+
+=== Response
+
+include::{snippets}/rentals/getRentals/http-response.adoc[]

@@ -12,6 +12,9 @@ import leejaewoo.server.rental.entity.RentalStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
 @RequiredArgsConstructor
 public class RentalMapper {
@@ -51,6 +54,15 @@ public class RentalMapper {
                     .period(rental.getPeriod())
                     .rentalStatus(rental.getStatus().getName())
                     .build();
+        }
+    }
+
+    public List<RentalResponseDto> rentalsToResponseDtoList(List<Rental> rentals) {
+        if(rentals == null) {
+            return null;
+        }
+        else {
+            return rentals.stream().map(this::rentalToResponseDto).collect(Collectors.toList());
         }
     }
 }

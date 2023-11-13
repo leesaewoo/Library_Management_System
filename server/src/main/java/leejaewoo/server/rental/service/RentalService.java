@@ -40,6 +40,12 @@ public class RentalService {
         return rentalMapper.rentalToResponseDto(rental);
     }
 
+    public List<RentalResponseDto> findRentals(Long bookId) {
+        List<Rental> rentals = rentalRepository.findByBookBookId(bookId);
+
+        return rentalMapper.rentalsToResponseDtoList(rentals);
+    }
+
     public void verifyAvailableRent(Long bookId) {
 
         List<Rental> rentals = rentalRepository.findByBookBookId(bookId);

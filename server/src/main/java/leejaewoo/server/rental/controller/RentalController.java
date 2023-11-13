@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
+import java.util.List;
 
 @RestController
 @RequestMapping("/rentals")
@@ -33,5 +34,13 @@ public class RentalController {
         RentalResponseDto result = rentalService.returnBook(rentalId);
 
         return ResponseEntity.ok(SingleResponse.accepted(result, "도서 반납 성공"));
+    }
+
+    @GetMapping("/{book-id}")
+    public ResponseEntity<SingleResponse<List<RentalResponseDto>>> getRental(@PathVariable("book-id") Long bookId) {
+
+        List<RentalResponseDto> result = rentalService.findRentals(bookId);
+
+        return ResponseEntity.ok(SingleResponse.ok(result, "도서 대출이력 확인 성공"));
     }
 }

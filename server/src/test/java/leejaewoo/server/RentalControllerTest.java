@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import leejaewoo.server.rental.controller.RentalController;
 import leejaewoo.server.rental.dto.RentalPostDto;
 import leejaewoo.server.rental.dto.RentalResponseDto;
+import leejaewoo.server.rental.entity.Rental;
 import leejaewoo.server.rental.entity.RentalStatus;
 import leejaewoo.server.rental.service.RentalService;
 import org.junit.jupiter.api.DisplayName;
@@ -19,6 +20,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -86,6 +90,35 @@ public class RentalControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.patch("/rentals/return/1"))
                 .andDo(MockMvcResultHandlers.print())
                 .andDo(MockMvcRestDocumentation.document("rentals/patchRental",
+                        Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
+                        Preprocessors.preprocessResponse(Preprocessors.prettyPrint())))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @DisplayName("도서 대출이력 확인")
+    @Test
+    void getBook() throws Exception {
+        //given
+        List<RentalResponseDto> rentals = new ArrayList<>();
+        for(int i = 0 ; i < 3 ; i ++) {
+            RentalResponseDto rentalResponseDto = RentalResponseDto.builder()
+                    .rentalId((long) i)
+                    .bookName("알고리즘 문제해결" + i)
+                    .memberName("leejaewoo")
+                    .period(7 + i)
+                    .rentalStatus(RentalStatus.COMPLETE_RETURN.getName())
+                    .build();
+
+            rentals.add(rentalResponseDto);
+        }
+
+        given(rentalService.findRentals(any()))
+                .willReturn(rentals);
+
+        //when & then
+        mockMvc.perform(MockMvcRequestBuilders.get("/rentals/1"))
+                .andDo(MockMvcResultHandlers.print())
+                .andDo(MockMvcRestDocumentation.document("rentals/getRentals",
                         Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
                         Preprocessors.preprocessResponse(Preprocessors.prettyPrint())))
                 .andExpect(MockMvcResultMatchers.status().isOk());

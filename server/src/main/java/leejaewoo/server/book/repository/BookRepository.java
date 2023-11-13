@@ -3,5 +3,8 @@ package leejaewoo.server.book.repository;
 import leejaewoo.server.book.entity.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface BookRepository extends JpaRepository<Long, Book> {
+import java.util.Optional;
+
+public interface BookRepository extends JpaRepository<Book, Long> {
+    Optional<Book> findByName(String name);
 }

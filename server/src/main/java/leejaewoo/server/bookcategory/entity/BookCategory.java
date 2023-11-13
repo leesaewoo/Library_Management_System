@@ -1,14 +1,20 @@
-package leejaewoo.server.book_category.entity;
+package leejaewoo.server.bookcategory.entity;
 
 import leejaewoo.server.book.entity.Book;
 import leejaewoo.server.category.entity.Category;
 import leejaewoo.server.global.audit.Auditable;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class BookCategory extends Auditable {
 
     @Id

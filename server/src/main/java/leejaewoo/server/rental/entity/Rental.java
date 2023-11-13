@@ -3,12 +3,18 @@ package leejaewoo.server.rental.entity;
 import leejaewoo.server.book.entity.Book;
 import leejaewoo.server.global.audit.Auditable;
 import leejaewoo.server.member.entity.Member;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Rental extends Auditable {
 
     @Id
@@ -27,4 +33,8 @@ public class Rental extends Auditable {
     @ManyToOne
     @JoinColumn(name = "book_id")
     private Book book;
+
+    public void changeRentalState() {
+        this.status = RentalStatus.COMPLETE_RETURN;
+    }
 }

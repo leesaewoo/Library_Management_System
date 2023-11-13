@@ -1,8 +1,8 @@
 package leejaewoo.server.rental.entity;
 
 public enum RentalStatus {
-    AVAILABLE("대여가능"),
-    UNAVAILABLE("대여불가");
+    COMPLETE_RETURN("반납완료(대여가능)"),
+    ON_RENTAL("대여중(대여불가)");
 
     private final String statusDescription;
 

@@ -4,6 +4,7 @@ import leejaewoo.server.book.entity.Book;
 import leejaewoo.server.global.audit.Auditable;
 import leejaewoo.server.member.entity.Member;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +12,7 @@ import javax.persistence.*;
 
 @Entity
 @Getter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Rental extends Auditable {

@@ -2,6 +2,7 @@ package leejaewoo.server.book.entity;
 
 import leejaewoo.server.bookcategory.entity.BookCategory;
 import leejaewoo.server.global.audit.Auditable;
+import leejaewoo.server.rental.entity.Rental;
 import lombok.*;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,9 @@ public class Book extends Auditable {
 
     @OneToMany(mappedBy = "book")
     private List<BookCategory> bookCategories = new ArrayList<>();
+
+    @OneToMany(mappedBy = "book")
+    private List<Rental> rentals = new ArrayList<>();
 
     public void setBookCategories(List<BookCategory> bookCategories) {
         this.bookCategories = bookCategories;

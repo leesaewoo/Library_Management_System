@@ -33,4 +33,8 @@ public class Rental extends Auditable {
     @ManyToOne
     @JoinColumn(name = "book_id")
     private Book book;
+
+    public void changeRentalState() {
+        this.status = RentalStatus.COMPLETE_RETURN;
+    }
 }

@@ -6,12 +6,10 @@ import leejaewoo.server.rental.dto.RentalResponseDto;
 import leejaewoo.server.rental.service.RentalService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Positive;
 
 @RestController
 @RequestMapping("/rentals")
@@ -26,5 +24,14 @@ public class RentalController {
         RentalResponseDto result = rentalService.createRental(rentalPostDto);
 
         return ResponseEntity.ok(SingleResponse.create(result, "도서 대출 성공"));
+    }
+
+    //도서 반납
+    @PatchMapping("/return/{rental-id}")
+    public ResponseEntity<SingleResponse<RentalResponseDto>> patchRental(@PathVariable("rental-id") @Positive Long rentalId) {
+
+        RentalResponseDto result = rentalService.returnBook(rentalId);
+
+        return ResponseEntity.ok(SingleResponse.accepted(result, "도서 반납 성공"));
     }
 }

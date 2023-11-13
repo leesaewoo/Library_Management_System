@@ -66,4 +66,28 @@ public class RentalControllerTest {
                         Preprocessors.preprocessResponse(Preprocessors.prettyPrint())))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
+
+    @DisplayName("도서반납신청")
+    @Test
+    void returnBook() throws Exception {
+        //given
+        RentalResponseDto rentalResponseDto = RentalResponseDto.builder()
+                .rentalId(1L)
+                .bookName("알고리즘 문제해결")
+                .memberName("leejaewoo")
+                .period(7)
+                .rentalStatus(RentalStatus.COMPLETE_RETURN.getName())
+                .build();
+
+        given(rentalService.returnBook(any()))
+                .willReturn(rentalResponseDto);
+
+        //when & then
+        mockMvc.perform(MockMvcRequestBuilders.patch("/rentals/return/1"))
+                .andDo(MockMvcResultHandlers.print())
+                .andDo(MockMvcRestDocumentation.document("rentals/patchRental",
+                        Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
+                        Preprocessors.preprocessResponse(Preprocessors.prettyPrint())))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
 }

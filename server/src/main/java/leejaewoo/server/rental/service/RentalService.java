@@ -1,5 +1,6 @@
 package leejaewoo.server.rental.service;
 
+import leejaewoo.server.global.exception.rental.RentalNotFoundException;
 import leejaewoo.server.global.exception.rental.RentalUnavailableException;
 import leejaewoo.server.rental.dto.RentalPostDto;
 import leejaewoo.server.rental.dto.RentalResponseDto;
@@ -31,6 +32,14 @@ public class RentalService {
         return rentalMapper.rentalToResponseDto(rental);
     }
 
+    public RentalResponseDto returnBook(Long rentalId) {
+        Rental rental = verifyExistRental(rentalId);
+
+        rental.changeRentalState();
+
+        return rentalMapper.rentalToResponseDto(rental);
+    }
+
     public void verifyAvailableRent(Long bookId) {
 
         List<Rental> rentals = rentalRepository.findByBookBookId(bookId);
@@ -42,5 +51,9 @@ public class RentalService {
                 }
             }
         }
+    }
+
+    public Rental verifyExistRental(Long rentalId) {
+        return rentalRepository.findById(rentalId).orElseThrow(RentalNotFoundException::new);
     }
 }

@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface RentalRepository extends JpaRepository<Rental, Long> {
-
-    List<Rental> findByBookBookId(Long bookId);
+//    queryDSL 사용으로 인한 주석처리
+//    List<Rental> findByBookBookId(Long bookId);
 }

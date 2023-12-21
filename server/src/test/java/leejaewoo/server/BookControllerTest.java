@@ -1,11 +1,16 @@
 package leejaewoo.server;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import leejaewoo.server.book.controller.BookController;
 import leejaewoo.server.book.dto.BookPatchDto;
 import leejaewoo.server.book.dto.BookPostDto;
 import leejaewoo.server.book.dto.BookResponseDto;
+import leejaewoo.server.book.entity.Book;
+import leejaewoo.server.book.entity.QBook;
 import leejaewoo.server.book.service.BookService;
+import leejaewoo.server.global.config.QuerydslConfig;
+import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +25,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,10 +38,10 @@ import static org.mockito.BDDMockito.given;
 @WebMvcTest(BookController.class)
 public class BookControllerTest {
 
-    @Autowired
+    @Autowired(required = false)
     private MockMvc mockMvc;
 
-    @Autowired
+    @Autowired(required = false)
     private ObjectMapper objectMapper;
 
     @MockBean
@@ -69,14 +76,14 @@ public class BookControllerTest {
                 .willReturn(bookResponseDto);
 
         //when & then
-        mockMvc.perform(MockMvcRequestBuilders.post("/books")
+        mockMvc.perform(MockMvcRequestBuilders.post("/book")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(bookPostDto)))
                 .andDo(MockMvcResultHandlers.print())
-                .andDo(MockMvcRestDocumentation.document("books/postBook",
+                .andDo(MockMvcRestDocumentation.document("book/postBook",
                         Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
                         Preprocessors.preprocessResponse(Preprocessors.prettyPrint())))
-                .andExpect(MockMvcResultMatchers.status().isOk());
+                .andExpect(MockMvcResultMatchers.status().isCreated());
     }
 
     @DisplayName("도서수정")
@@ -106,13 +113,13 @@ public class BookControllerTest {
                 .willReturn(bookResponseDto);
 
         //when & then
-        mockMvc.perform(MockMvcRequestBuilders.patch("/books/1")
+        mockMvc.perform(MockMvcRequestBuilders.patch("/book/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(bookPatchDto)))
                 .andDo(MockMvcResultHandlers.print())
-                .andDo(MockMvcRestDocumentation.document("books/patchBook",
+                .andDo(MockMvcRestDocumentation.document("book/patchBook",
                         Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
                         Preprocessors.preprocessResponse(Preprocessors.prettyPrint())))
-                .andExpect(MockMvcResultMatchers.status().isOk());
+                .andExpect(MockMvcResultMatchers.status().isAccepted());
     }
 }

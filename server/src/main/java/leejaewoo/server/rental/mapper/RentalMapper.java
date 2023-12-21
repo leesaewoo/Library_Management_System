@@ -2,9 +2,11 @@ package leejaewoo.server.rental.mapper;
 
 import leejaewoo.server.book.entity.Book;
 import leejaewoo.server.book.repository.BookRepository;
+import leejaewoo.server.book.service.BookService;
 import leejaewoo.server.global.exception.member.MemberNotFoundException;
 import leejaewoo.server.member.entity.Member;
 import leejaewoo.server.member.repository.MemberRepository;
+import leejaewoo.server.member.service.MemberService;
 import leejaewoo.server.rental.dto.RentalPostDto;
 import leejaewoo.server.rental.dto.RentalResponseDto;
 import leejaewoo.server.rental.entity.Rental;
@@ -19,9 +21,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class RentalMapper {
 
-    private final MemberRepository memberRepository;
+    private final MemberService memberService;
 
-    private final BookRepository bookRepository;
+    private final BookService bookService;
 
     public Rental postDtoToRental(RentalPostDto rentalPostDto) {
         if(rentalPostDto == null) {
@@ -33,7 +35,7 @@ public class RentalMapper {
                             .bookId(rentalPostDto.getBookId())
                             .build())
                     .member(Member.builder()
-                            .memberId(memberRepository.findByEmail(rentalPostDto.getEmail()).orElseThrow(MemberNotFoundException::new).getMemberId())
+                            .memberId(memberService.findMemberByEmail(rentalPostDto.getEmail()).getMemberId())
                             .email(rentalPostDto.getEmail())
                             .build())
                     .period(rentalPostDto.getPeriod())
@@ -49,8 +51,8 @@ public class RentalMapper {
         else {
             return RentalResponseDto.builder()
                     .rentalId(rental.getRentalId())
-                    .bookName(bookRepository.findById(rental.getBook().getBookId()).get().getName())
-                    .memberName(memberRepository.findById(rental.getMember().getMemberId()).get().getName())
+                    .bookName(bookService.findBookByBookId(rental.getBook().getBookId()).getName())
+                    .memberName(memberService.findMemberByEmail(rental.getMember().getEmail()).getName())
                     .period(rental.getPeriod())
                     .rentalStatus(rental.getStatus().getName())
                     .build();

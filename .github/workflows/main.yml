@@ -1,10 +1,8 @@
 name: Java CI with Gradle
 
 on:
-  pull_request:
-    branches: [ main ]
   push:
-    branches: [ deploy ]
+    branches: [ main ]
 
 jobs:
   build:
@@ -67,6 +65,6 @@ jobs:
              'fi',
              'sudo docker pull leesaewoo/library:${GITHUB_SHA::7}',
              'sudo docker tag leesaewoo/library:${GITHUB_SHA::7} library',
-             'sudo docker run -e TZ=Asia/Seoul -d --name server -p 8080:8080 library'
+             'sudo docker run --env-file ./library.env -d --name server -p 8080:8080 library'
            ]" \
            --output text

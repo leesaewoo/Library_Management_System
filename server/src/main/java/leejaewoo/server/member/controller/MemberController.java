@@ -5,6 +5,7 @@ import leejaewoo.server.member.dto.MemberPostDto;
 import leejaewoo.server.member.dto.MemberResponseDto;
 import leejaewoo.server.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,18 +16,19 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/members")
+@RequestMapping("/member")
 @RequiredArgsConstructor
 @Validated
 public class MemberController {
 
     private final MemberService memberService;
 
+    //회원가입
     @PostMapping
-    public ResponseEntity<SingleResponse<MemberResponseDto>> postMember(@RequestBody @Valid MemberPostDto memberPostDto) {
+    public ResponseEntity<MemberResponseDto> postMember(@RequestBody @Valid MemberPostDto memberPostDto) {
 
         MemberResponseDto result = memberService.createMember(memberPostDto);
 
-        return ResponseEntity.ok(SingleResponse.create(result, "회원가입 성공"));
+        return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 }

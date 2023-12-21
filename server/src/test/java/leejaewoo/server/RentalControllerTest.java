@@ -31,10 +31,10 @@ import static org.mockito.BDDMockito.given;
 @WebMvcTest(RentalController.class)
 public class RentalControllerTest {
 
-    @Autowired
+    @Autowired(required = false)
     private MockMvc mockMvc;
 
-    @Autowired
+    @Autowired(required = false)
     private ObjectMapper objectMapper;
 
     @MockBean
@@ -61,14 +61,14 @@ public class RentalControllerTest {
                 .willReturn(rentalResponseDto);
 
         //when & then
-        mockMvc.perform(MockMvcRequestBuilders.post("/rentals")
+        mockMvc.perform(MockMvcRequestBuilders.post("/rental")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(rentalPostDto)))
                 .andDo(MockMvcResultHandlers.print())
-                .andDo(MockMvcRestDocumentation.document("rentals/postRental",
+                .andDo(MockMvcRestDocumentation.document("rental/postRental",
                         Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
                         Preprocessors.preprocessResponse(Preprocessors.prettyPrint())))
-                .andExpect(MockMvcResultMatchers.status().isOk());
+                .andExpect(MockMvcResultMatchers.status().isCreated());
     }
 
     @DisplayName("도서반납신청")
@@ -87,12 +87,12 @@ public class RentalControllerTest {
                 .willReturn(rentalResponseDto);
 
         //when & then
-        mockMvc.perform(MockMvcRequestBuilders.patch("/rentals/return/1"))
+        mockMvc.perform(MockMvcRequestBuilders.patch("/rental/return/1"))
                 .andDo(MockMvcResultHandlers.print())
-                .andDo(MockMvcRestDocumentation.document("rentals/patchRental",
+                .andDo(MockMvcRestDocumentation.document("rental/patchRental",
                         Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
                         Preprocessors.preprocessResponse(Preprocessors.prettyPrint())))
-                .andExpect(MockMvcResultMatchers.status().isOk());
+                .andExpect(MockMvcResultMatchers.status().isAccepted());
     }
 
     @DisplayName("도서 대출이력 확인")
@@ -116,9 +116,9 @@ public class RentalControllerTest {
                 .willReturn(rentals);
 
         //when & then
-        mockMvc.perform(MockMvcRequestBuilders.get("/rentals/1"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/rental/1"))
                 .andDo(MockMvcResultHandlers.print())
-                .andDo(MockMvcRestDocumentation.document("rentals/getRentals",
+                .andDo(MockMvcRestDocumentation.document("rental/getRentals",
                         Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
                         Preprocessors.preprocessResponse(Preprocessors.prettyPrint())))
                 .andExpect(MockMvcResultMatchers.status().isOk());

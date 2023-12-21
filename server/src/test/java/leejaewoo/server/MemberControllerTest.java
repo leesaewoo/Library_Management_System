@@ -1,11 +1,13 @@
 package leejaewoo.server;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import leejaewoo.server.member.controller.MemberController;
 import leejaewoo.server.member.dto.MemberPostDto;
 import leejaewoo.server.member.dto.MemberResponseDto;
 import leejaewoo.server.member.repository.MemberRepository;
 import leejaewoo.server.member.service.MemberService;
+import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import javax.persistence.EntityManager;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
@@ -30,10 +34,10 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 @WebMvcTest(MemberController.class)
 public class MemberControllerTest {
 
-    @Autowired
+    @Autowired(required = false)
     private MockMvc mockMvc;
 
-    @Autowired
+    @Autowired(required = false)
     private ObjectMapper objectMapper;
 
     @MockBean
@@ -65,13 +69,13 @@ public class MemberControllerTest {
                 .willReturn(memberResponseDto);
 
         //when & then
-        mockMvc.perform(MockMvcRequestBuilders.post("/members")
+        mockMvc.perform(MockMvcRequestBuilders.post("/member")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(memberPostDto)))
                 .andDo(MockMvcResultHandlers.print())
-                .andDo(MockMvcRestDocumentation.document("members/postMember",
+                .andDo(MockMvcRestDocumentation.document("member/postMember",
                         Preprocessors.preprocessRequest(prettyPrint()),
                         Preprocessors.preprocessResponse(prettyPrint())))
-                .andExpect(MockMvcResultMatchers.status().isOk());
+                .andExpect(MockMvcResultMatchers.status().isCreated());
     }
 }

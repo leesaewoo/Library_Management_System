@@ -9,58 +9,58 @@
 
 === Request
 
-include::{snippets}/members/postMember/http-request.adoc[]
+include::{snippets}/member/postMember/http-request.adoc[]
 
 === Response
 
-include::{snippets}/members/postMember/http-response.adoc[]
+include::{snippets}/member/postMember/http-response.adoc[]
 
 == 도서등록
 
 === Request
 
-include::{snippets}/books/postBook/http-request.adoc[]
+include::{snippets}/book/postBook/http-request.adoc[]
 
 === Response
 
-include::{snippets}/books/postBook/http-response.adoc[]
+include::{snippets}/book/postBook/http-response.adoc[]
 
 == 도서수정
 
 === Request
 
-include::{snippets}/books/patchBook/http-request.adoc[]
+include::{snippets}/book/patchBook/http-request.adoc[]
 
 === Response
 
-include::{snippets}/books/patchBook/http-response.adoc[]
+include::{snippets}/book/patchBook/http-response.adoc[]
 
 == 도서대출
 
 === Request
 
-include::{snippets}/rentals/postRental/http-request.adoc[]
+include::{snippets}/rental/postRental/http-request.adoc[]
 
 === Response
 
-include::{snippets}/rentals/postRental/http-response.adoc[]
+include::{snippets}/rental/postRental/http-response.adoc[]
 
 == 도서 반납
 
 === Request
 
-include::{snippets}/rentals/patchRental/http-request.adoc[]
+include::{snippets}/rental/patchRental/http-request.adoc[]
 
 === Response
 
-include::{snippets}/rentals/patchRental/http-response.adoc[]
+include::{snippets}/rental/patchRental/http-response.adoc[]
 
 == 도서 대출 이력 불러오기
 
 === Request
 
-include::{snippets}/rentals/getRentals/http-request.adoc[]
+include::{snippets}/rental/getRentals/http-request.adoc[]
 
 === Response
 
-include::{snippets}/rentals/getRentals/http-response.adoc[]
+include::{snippets}/rental/getRentals/http-response.adoc[]

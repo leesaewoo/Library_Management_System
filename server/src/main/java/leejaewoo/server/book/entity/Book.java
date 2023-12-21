@@ -4,13 +4,11 @@ import leejaewoo.server.bookcategory.entity.BookCategory;
 import leejaewoo.server.global.audit.Auditable;
 import leejaewoo.server.rental.entity.Rental;
 import lombok.*;
-import org.springframework.stereotype.Service;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringJoiner;
 
 @Entity
 @Getter
@@ -29,9 +27,11 @@ public class Book extends Auditable {
 
     private LocalDateTime publishedDate;
 
+    @Builder.Default
     @OneToMany(mappedBy = "book")
     private List<BookCategory> bookCategories = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "book")
     private List<Rental> rentals = new ArrayList<>();
 
@@ -51,7 +51,8 @@ public class Book extends Auditable {
 
         String[] splitPublishedDate = publishedDate.split("-");
 
-        LocalDateTime newPublishedDate = LocalDateTime.of(Integer.parseInt(splitPublishedDate[0]), Integer.parseInt(splitPublishedDate[1]), Integer.parseInt(splitPublishedDate[2]), 0, 0);
+        LocalDateTime newPublishedDate = LocalDateTime.of(Integer.parseInt(splitPublishedDate[0]),
+                Integer.parseInt(splitPublishedDate[1]), Integer.parseInt(splitPublishedDate[2]), 0, 0);
 
         this.publishedDate = newPublishedDate;
     }

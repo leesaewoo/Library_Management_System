@@ -49,8 +49,14 @@ public class BookService {
         Long bookId = book.getBookId();
         log.info("도서 등록, bookId: " + bookId);
 
-        List<Category> categoryList = bookPostDto.getCategories().stream().map(categoryService::createCategory).collect(Collectors.toList());
-        List<BookCategory> bookCategories = categoryList.stream().map(o -> bookCategoryService.createBookCategory(bookId, o.getCategoryId())).collect(Collectors.toList());
+        List<Category> categoryList = bookPostDto.getCategories().stream()
+                .map(categoryService::createCategory)
+                .collect(Collectors.toList());
+
+        List<BookCategory> bookCategories = categoryList.stream()
+                .map(o -> bookCategoryService.createBookCategory(bookId, o.getCategoryId()))
+                .collect(Collectors.toList());
+
         book.setBookCategories(bookCategories);
 
         return bookMapper.BookToResponseDto(book, categoryList);
@@ -61,28 +67,28 @@ public class BookService {
         Book book = findBookByBookId(bookId);
 
         Optional.ofNullable(bookPatchDto.getName())
-                .ifPresent(name ->
-                    {
+                .ifPresent(name -> {
                         book.setName(name);
                         log.info("도서 정보 수정, bookId: " + bookId + ", bookName: " + name);
                     }
                 );
         Optional.ofNullable(bookPatchDto.getPublisher())
-                .ifPresent(publisher ->
-                        {
-                            book.setPublisher(publisher);
-                            log.info("도서 정보 수정, bookId: " + bookId + ", publisher: " + publisher);
-                        }
+                .ifPresent(publisher -> {
+                        book.setPublisher(publisher);
+                        log.info("도서 정보 수정, bookId: " + bookId + ", publisher: " + publisher);
+                    }
                 );
         Optional.ofNullable(bookPatchDto.getPublishedDate())
-                .ifPresent(date ->
-                        {
-                            book.setPublishedDate(date);
-                            log.info("도서 정보 수정, bookId: " + bookId + ", publishedDate: " + date);
-                        }
+                .ifPresent(date -> {
+                        book.setPublishedDate(date);
+                        log.info("도서 정보 수정, bookId: " + bookId + ", publishedDate: " + date);
+                    }
                 );
 
-        List<Category> categoryList = book.getBookCategories().stream().map(BookCategory::getCategory).collect(Collectors.toList());
+        List<Category> categoryList = book.getBookCategories().stream()
+                .map(BookCategory::getCategory)
+                .collect(Collectors.toList());
+
         return bookMapper.BookToResponseDto(book, categoryList);
     }
 

@@ -95,11 +95,31 @@ public class RentalControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isAccepted());
     }
 
-    @DisplayName("도서 대출이력 확인")
+    @DisplayName("도서 대출이력 조회")
     @Test
     void getBook() throws Exception {
         //given
         List<RentalResponseDto> rentals = new ArrayList<>();
+
+        RentalResponseDto rentalResponseDto3 = RentalResponseDto.builder()
+                .rentalId(3L)
+                .bookName("알고리즘 문제해결")
+                .memberName("parkjava")
+                .period(7)
+                .rentalStatus(RentalStatus.ON_RENTAL.getName())
+                .build();
+        rentals.add(rentalResponseDto3);
+
+
+        RentalResponseDto rentalResponseDto2 = RentalResponseDto.builder()
+                .rentalId(2L)
+                .bookName("알고리즘 문제해결")
+                .memberName("kimcoding")
+                .period(4)
+                .rentalStatus(RentalStatus.COMPLETE_RETURN.getName())
+                .build();
+        rentals.add(rentalResponseDto2);
+
         RentalResponseDto rentalResponseDto1 = RentalResponseDto.builder()
                 .rentalId(1L)
                 .bookName("알고리즘 문제해결")
@@ -107,28 +127,7 @@ public class RentalControllerTest {
                 .period(2)
                 .rentalStatus(RentalStatus.COMPLETE_RETURN.getName())
                 .build();
-
         rentals.add(rentalResponseDto1);
-
-        RentalResponseDto rentalResponseDto2 = RentalResponseDto.builder()
-                .rentalId(1L)
-                .bookName("알고리즘 문제해결")
-                .memberName("kimcoding")
-                .period(4)
-                .rentalStatus(RentalStatus.COMPLETE_RETURN.getName())
-                .build();
-
-        rentals.add(rentalResponseDto2);
-
-        RentalResponseDto rentalResponseDto3 = RentalResponseDto.builder()
-                .rentalId(1L)
-                .bookName("알고리즘 문제해결")
-                .memberName("parkjava")
-                .period(7)
-                .rentalStatus(RentalStatus.ON_RENTAL.getName())
-                .build();
-
-        rentals.add(rentalResponseDto3);
 
         given(rentalService.findRentals(any()))
                 .willReturn(rentals);

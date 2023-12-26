@@ -35,7 +35,7 @@ public class MemberController {
         try {
              result = memberService.createMember(memberPostDto);
         } catch (MemberDuplicateException mde) {
-            return new ResponseEntity<>("이미 가입된 이메일 주소 입니다.", HttpStatus.CONFLICT);
+            return new ResponseEntity<>(mde.getMessage(), mde.getHttpStatus());
         }
 
         return new ResponseEntity<>(result, HttpStatus.CREATED);

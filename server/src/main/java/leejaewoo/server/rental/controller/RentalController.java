@@ -1,5 +1,7 @@
 package leejaewoo.server.rental.controller;
 
+import leejaewoo.server.global.exception.rental.RentalNotFoundException;
+import leejaewoo.server.global.exception.rental.RentalUnavailableException;
 import leejaewoo.server.global.response.PageResponse;
 import leejaewoo.server.global.response.SingleResponse;
 import leejaewoo.server.rental.dto.RentalPostDto;
@@ -23,18 +25,30 @@ public class RentalController {
 
     //도서 대출 신청
     @PostMapping
-    public ResponseEntity<RentalResponseDto> postRental(@RequestBody @Valid RentalPostDto rentalPostDto) {
+    public ResponseEntity postRental(@RequestBody @Valid RentalPostDto rentalPostDto) {
 
-        RentalResponseDto result = rentalService.createRental(rentalPostDto);
+        RentalResponseDto result;
+
+        try {
+            result = rentalService.createRental(rentalPostDto);
+        } catch (RentalUnavailableException rue) {
+            return new ResponseEntity<>(rue.getMessage(), rue.getHttpStatus());
+        }
 
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
     //도서 반납
     @PatchMapping("/return/{rental-id}")
-    public ResponseEntity<RentalResponseDto> patchRental(@PathVariable("rental-id") @Positive Long rentalId) {
+    public ResponseEntity patchRental(@PathVariable("rental-id") @Positive Long rentalId) {
 
-        RentalResponseDto result = rentalService.returnBook(rentalId);
+        RentalResponseDto result;
+
+        try {
+             result = rentalService.returnBook(rentalId);
+        } catch (RentalNotFoundException rnfe) {
+            return new ResponseEntity<>(rnfe.getMessage(), rnfe.getHttpStatus());
+        }
 
         return new ResponseEntity<>(result, HttpStatus.ACCEPTED);
     }

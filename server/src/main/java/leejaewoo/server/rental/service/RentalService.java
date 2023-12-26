@@ -2,6 +2,7 @@ package leejaewoo.server.rental.service;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import leejaewoo.server.book.entity.QBook;
+import leejaewoo.server.book.service.BookService;
 import leejaewoo.server.global.exception.rental.RentalNotFoundException;
 import leejaewoo.server.global.exception.rental.RentalUnavailableException;
 import leejaewoo.server.global.response.PageInfo;
@@ -62,7 +63,6 @@ public class RentalService {
     public List<RentalResponseDto> findRentals(Long bookId) {
 //        JPA 쿼리 메서드 -> queryDSL 변경
 //        List<Rental> rentals = rentalRepository.findByBookBookId(bookId);
-
         List<Rental> rentals = jpaQueryFactory
                 .selectFrom(QRental.rental)
                 .join(QRental.rental.book, QBook.book)

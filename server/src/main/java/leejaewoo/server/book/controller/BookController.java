@@ -4,6 +4,8 @@ import leejaewoo.server.book.dto.BookPatchDto;
 import leejaewoo.server.book.dto.BookPostDto;
 import leejaewoo.server.book.dto.BookResponseDto;
 import leejaewoo.server.book.service.BookService;
+import leejaewoo.server.global.exception.book.BookDuplicateException;
+import leejaewoo.server.global.exception.book.BookNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,17 +21,29 @@ public class BookController {
     private final BookService bookService;
 
     @PostMapping
-    public ResponseEntity<BookResponseDto> postBook(@RequestBody @Valid BookPostDto bookPostDto) {
+    public ResponseEntity postBook(@RequestBody @Valid BookPostDto bookPostDto) {
 
-        BookResponseDto result = bookService.createBook(bookPostDto);
+        BookResponseDto result;
+
+        try {
+             result = bookService.createBook(bookPostDto);
+        } catch (BookDuplicateException bde) {
+            return new ResponseEntity<>(bde.getMessage(), bde.getHttpStatus());
+        }
 
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
     @PatchMapping("/{book-id}")
-    public ResponseEntity<BookResponseDto> patchBook(@PathVariable(value = "book-id") Long bookId ,
+    public ResponseEntity patchBook(@PathVariable(value = "book-id") Long bookId ,
                                                      @RequestBody @Valid BookPatchDto bookPatchDto) {
-        BookResponseDto result = bookService.modifyBook(bookId, bookPatchDto);
+        BookResponseDto result;
+
+        try {
+             result = bookService.modifyBook(bookId, bookPatchDto);
+        } catch (BookNotFoundException bnfe) {
+            return new ResponseEntity<>(bnfe.getMessage(), bnfe.getHttpStatus());
+        }
 
         return new ResponseEntity<>(result, HttpStatus.ACCEPTED);
     }

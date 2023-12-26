@@ -7,7 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface BookCategoryRepository extends JpaRepository<BookCategory, Long>, MongoDatabase {
-
-    List<BookCategory> findByBookBookId(Long bookId);
+public interface BookCategoryRepository extends JpaRepository<BookCategory, Long> {
 }

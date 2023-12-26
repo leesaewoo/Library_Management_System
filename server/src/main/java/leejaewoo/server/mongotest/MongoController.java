@@ -23,6 +23,13 @@ public class MongoController {
         mongoService.mongoInsert(requestDto);
     }
 
+    @PostMapping("/insert-red")
+    public void mongoTestRedRecord(
+            @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+            @RequestBody RedRecord redRecord) {
+        mongoService.mongoInsert(redRecord);
+    }
+
     @PatchMapping("/update-mongo")
     public void mongoTest04(@RequestBody MongoRequestDto requestDto) {
 

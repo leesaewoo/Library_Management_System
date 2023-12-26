@@ -62,8 +62,8 @@ public class RentalControllerTest {
 
         //when & then
         mockMvc.perform(MockMvcRequestBuilders.post("/rental")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(rentalPostDto)))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(rentalPostDto)))
                 .andDo(MockMvcResultHandlers.print())
                 .andDo(MockMvcRestDocumentation.document("rental/postRental",
                         Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
@@ -100,17 +100,35 @@ public class RentalControllerTest {
     void getBook() throws Exception {
         //given
         List<RentalResponseDto> rentals = new ArrayList<>();
-        for(int i = 0 ; i < 3 ; i ++) {
-            RentalResponseDto rentalResponseDto = RentalResponseDto.builder()
-                    .rentalId((long) i)
-                    .bookName("알고리즘 문제해결" + i)
-                    .memberName("leejaewoo")
-                    .period(7 + i)
-                    .rentalStatus(RentalStatus.COMPLETE_RETURN.getName())
-                    .build();
+        RentalResponseDto rentalResponseDto1 = RentalResponseDto.builder()
+                .rentalId(1L)
+                .bookName("알고리즘 문제해결")
+                .memberName("leejaewoo")
+                .period(2)
+                .rentalStatus(RentalStatus.COMPLETE_RETURN.getName())
+                .build();
 
-            rentals.add(rentalResponseDto);
-        }
+        rentals.add(rentalResponseDto1);
+
+        RentalResponseDto rentalResponseDto2 = RentalResponseDto.builder()
+                .rentalId(1L)
+                .bookName("알고리즘 문제해결")
+                .memberName("kimcoding")
+                .period(4)
+                .rentalStatus(RentalStatus.COMPLETE_RETURN.getName())
+                .build();
+
+        rentals.add(rentalResponseDto2);
+
+        RentalResponseDto rentalResponseDto3 = RentalResponseDto.builder()
+                .rentalId(1L)
+                .bookName("알고리즘 문제해결")
+                .memberName("parkjava")
+                .period(7)
+                .rentalStatus(RentalStatus.ON_RENTAL.getName())
+                .build();
+
+        rentals.add(rentalResponseDto3);
 
         given(rentalService.findRentals(any()))
                 .willReturn(rentals);

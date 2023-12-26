@@ -25,6 +25,10 @@ public class MongoService {
         mongoTemplate.insert(mongo2);
     }
 
+    public void mongoInsert(RedRecord redRecord) {
+        mongoTemplate.insert(redRecord);
+    }
+
     public void mongoUpdate(MongoRequestDto mongoRequestDto) {
         Mongo mongo = new Mongo(mongoRequestDto.getId(), mongoRequestDto.getContent1(), mongoRequestDto.getContent2(), mongoRequestDto.isContent3(), mongoRequestDto.getContent4());
     }

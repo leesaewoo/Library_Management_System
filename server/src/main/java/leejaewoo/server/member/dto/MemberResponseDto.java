@@ -20,4 +20,12 @@ public class MemberResponseDto {
     private String phoneNumber;
 
     private String residentialAddress;
+
+    public static class ErrorResponse {
+        private String message;
+
+        public ErrorResponse(String message) {
+            this.message = message;
+        }
+    }
 }

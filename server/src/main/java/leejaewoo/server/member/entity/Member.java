@@ -33,5 +33,5 @@ public class Member extends Auditable {
     private String residentialAddress;
 
     @OneToMany(mappedBy = "member")
-    private List<Rental> rentals = new ArrayList<>();
+    private final List<Rental> rentals = new ArrayList<>();
 }

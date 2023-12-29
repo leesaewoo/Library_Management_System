@@ -11,7 +11,7 @@ spring:
 
   data:
       mongodb:
-        uri: mongodb+srv://leejw:${MONGODB_PASSWORD}@saewoo.h00buwo.mongodb.net/mongotest?retryWrites=true&w=majority
+        uri: mongodb+srv://leejw:${MONGODB_PASSWORD}@saewoo.h00buwo.mongodb.net/mongodb_test?retryWrites=true&w=majority
 
   h2:
     console:

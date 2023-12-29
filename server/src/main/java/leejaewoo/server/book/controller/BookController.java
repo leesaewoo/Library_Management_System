@@ -28,10 +28,13 @@ public class BookController {
         try {
              result = bookService.createBook(bookPostDto);
         } catch (BookDuplicateException bde) {
-            return new ResponseEntity<>(bde.getMessage(), bde.getHttpStatus());
+//            return new 사용 지양
+//            return new ResponseEntity<>(bde.getMessage(), bde.getHttpStatus());
+            return ResponseEntity.status(bde.getHttpStatus()).body(bde.getMessage());
         }
-
-        return new ResponseEntity<>(result, HttpStatus.CREATED);
+//        return new 사용 지양
+//        return new ResponseEntity<>(result, HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
     @PatchMapping("/{book-id}")
@@ -42,9 +45,13 @@ public class BookController {
         try {
              result = bookService.modifyBook(bookId, bookPatchDto);
         } catch (BookNotFoundException bnfe) {
-            return new ResponseEntity<>(bnfe.getMessage(), bnfe.getHttpStatus());
+//            return new 사용 지양
+//            return new ResponseEntity<>(bnfe.getMessage(), bnfe.getHttpStatus());
+            return ResponseEntity.status(bnfe.getHttpStatus()).body(bnfe.getMessage());
         }
 
-        return new ResponseEntity<>(result, HttpStatus.ACCEPTED);
+//        return new 사용 지양
+//        return new ResponseEntity<>(result, HttpStatus.ACCEPTED);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(result);
     }
 }

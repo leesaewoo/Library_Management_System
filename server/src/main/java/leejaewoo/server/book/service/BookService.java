@@ -12,6 +12,7 @@ import leejaewoo.server.bookcategory.entity.BookCategory;
 import leejaewoo.server.bookcategory.service.BookCategoryService;
 import leejaewoo.server.category.entity.Category;
 import leejaewoo.server.category.service.CategoryService;
+import leejaewoo.server.global.exception.BusinessException;
 import leejaewoo.server.global.exception.book.BookDuplicateException;
 import leejaewoo.server.global.exception.book.BookNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +40,7 @@ public class BookService {
 
     private final JPAQueryFactory jpaQueryFactory;
 
-    public BookResponseDto createBook(BookPostDto bookPostDto) {
+    public BookResponseDto createBook(BookPostDto bookPostDto) throws BusinessException {
         System.out.println(bookPostDto.getPublishedDate());
         Book book = bookMapper.postDtoToBook(bookPostDto);
 
@@ -62,28 +63,45 @@ public class BookService {
         return bookMapper.BookToResponseDto(book, categoryList);
     }
 
-    public BookResponseDto modifyBook(Long bookId, BookPatchDto bookPatchDto) {
+    public BookResponseDto modifyBook(Long bookId, BookPatchDto bookPatchDto) throws BookNotFoundException {
 
         Book book = findBookByBookId(bookId);
-
-        Optional.ofNullable(bookPatchDto.getName())
-                .ifPresent(name -> {
-                        book.setName(name);
-                        log.info("도서 정보 수정, bookId: " + bookId + ", bookName: " + name);
-                    }
-                );
-        Optional.ofNullable(bookPatchDto.getPublisher())
-                .ifPresent(publisher -> {
-                        book.setPublisher(publisher);
-                        log.info("도서 정보 수정, bookId: " + bookId + ", publisher: " + publisher);
-                    }
-                );
-        Optional.ofNullable(bookPatchDto.getPublishedDate())
-                .ifPresent(date -> {
-                        book.setPublishedDate(date);
-                        log.info("도서 정보 수정, bookId: " + bookId + ", publishedDate: " + date);
-                    }
-                );
+//        가독성을 위해 람다식 문법에서 일반 자바 문법으로 변경
+//        Optional.ofNullable(bookPatchDto.getName())
+//                .ifPresent(name -> {
+//                        book.setName(name);
+//                        log.info("도서 정보 수정, bookId: " + bookId + ", bookName: " + name);
+//                    }
+//                );
+        Optional<String> name = Optional.ofNullable(bookPatchDto.getName());
+        if(name.isPresent()) {
+            log.info("도서 정보 수정, bookId: " + bookId + ", bookName: " + name.get());
+            book.setName(name.get());
+        };
+//        가독성을 위해 람다식 문법에서 일반 자바 문법으로 변경
+//        Optional.ofNullable(bookPatchDto.getPublisher())
+//                .ifPresent(publisher -> {
+//                        book.setPublisher(publisher);
+//                        log.info("도서 정보 수정, bookId: " + bookId + ", publisher: " + publisher);
+//                    }
+//                );
+        Optional<String> publisher = Optional.ofNullable(bookPatchDto.getPublisher());
+        if(publisher.isPresent()) {
+            log.info("도서 정보 수정, bookId: " + bookId + ", publisher: " + publisher);
+            book.setPublisher(publisher.get());
+        }
+//        가독성을 위해 람다식 문법에서 일반 자바 문법으로 변경
+//        Optional.ofNullable(bookPatchDto.getPublishedDate())
+//                .ifPresent(date -> {
+//                        book.setPublishedDate(date);
+//                        log.info("도서 정보 수정, bookId: " + bookId + ", publishedDate: " + date);
+//                    }
+//                );
+        Optional<String> publishedDate = Optional.ofNullable(bookPatchDto.getPublishedDate());
+        if(publishedDate.isPresent()) {
+            log.info("도서 정보 수정, bookId: " + bookId + ", publishedDate: " + publishedDate);
+            book.setPublishedDate(publishedDate.get());
+        }
 
         List<Category> categoryList = book.getBookCategories().stream()
                 .map(BookCategory::getCategory)

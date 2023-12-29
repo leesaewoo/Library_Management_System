@@ -28,7 +28,7 @@ public class MemberService {
 
     private final JPAQueryFactory jpaQueryFactory;
 
-    public MemberResponseDto createMember(MemberPostDto memberPostDto) {
+    public MemberResponseDto createMember(MemberPostDto memberPostDto) throws MemberDuplicateException {
         Member member = memberMapper.postDtoToMember(memberPostDto);
 
         verifyExistMember(member.getEmail());

@@ -39,7 +39,7 @@ public class RentalService {
 
     private final JPAQueryFactory jpaQueryFactory;
 
-    public RentalResponseDto createRental(RentalPostDto rentalPostDto) {
+    public RentalResponseDto createRental(RentalPostDto rentalPostDto) throws RentalUnavailableException {
 
         Rental rental = rentalMapper.postDtoToRental(rentalPostDto);
 
@@ -51,7 +51,7 @@ public class RentalService {
         return rentalMapper.rentalToResponseDto(rental);
     }
 
-    public RentalResponseDto returnBook(Long rentalId) {
+    public RentalResponseDto returnBook(Long rentalId) throws RentalNotFoundException{
         Rental rental = verifyExistRental(rentalId);
 
         rental.changeRentalState();
@@ -118,6 +118,7 @@ public class RentalService {
             return;
         }
 
+        //
         for (Rental rental : rentals) {
             if (rental.getStatus().equals(RentalStatus.ON_RENTAL)) {
                 log.error("대출중인 도서에 대출 신청, rentalId: " + rental.getRentalId());

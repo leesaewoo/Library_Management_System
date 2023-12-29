@@ -3,6 +3,8 @@ package leejaewoo.server.rental.mapper;
 import leejaewoo.server.book.entity.Book;
 import leejaewoo.server.book.repository.BookRepository;
 import leejaewoo.server.book.service.BookService;
+import leejaewoo.server.global.exception.BusinessException;
+import leejaewoo.server.global.exception.book.BookNotFoundException;
 import leejaewoo.server.global.exception.member.MemberNotFoundException;
 import leejaewoo.server.member.entity.Member;
 import leejaewoo.server.member.repository.MemberRepository;
@@ -25,7 +27,7 @@ public class RentalMapper {
 
     private final BookService bookService;
 
-    public Rental postDtoToRental(RentalPostDto rentalPostDto) {
+    public Rental postDtoToRental(RentalPostDto rentalPostDto) throws MemberNotFoundException {
         if(rentalPostDto == null) {
             return null;
         }
@@ -44,7 +46,7 @@ public class RentalMapper {
         }
     }
 
-    public RentalResponseDto rentalToResponseDto(Rental rental) {
+    public RentalResponseDto rentalToResponseDto(Rental rental) throws BusinessException {
         if(rental == null) {
             return null;
         }
@@ -59,7 +61,7 @@ public class RentalMapper {
         }
     }
 
-    public List<RentalResponseDto> rentalsToResponseDtoList(List<Rental> rentals) {
+    public List<RentalResponseDto> rentalsToResponseDtoList(List<Rental> rentals) throws RuntimeException {
         if(rentals == null) {
             return null;
         }
